@@ -1,0 +1,62 @@
+html, body, div.container{
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+div.container {
+  display:grid;
+  grid-template-rows: 3fr 9fr 2fr;
+  grid-template-columns: 3fr 5fr;
+  grid-gap: 2px;
+  background-color: yellow;
+}
+
+div.container > div {
+  background-color: #99c2ff;
+}
+
+div.header {
+  grid-column: 1/3;
+  grid-row: 1/2;
+}
+
+div.game-container {
+  display: flex;
+  grid-column: 1/2;
+  grid-row: 2/3;
+  text-align: center;
+}
+
+div.menu {
+  grid-column: 2/3;
+  grid-row: 2/3;
+}
+
+div.footer {
+  grid-column: 1/3;
+  grid-row: 3/4;
+}
+
+
+div.game {
+  display: grid;
+  grid-template-columns: repeat(4, 80px);
+  grid-template-rows: repeat(4, 80px);
+  margin: auto;
+}
+
+div.grid-cell {
+  display: flex;
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  font-size: 20px;
+  background-color: #e6f0ff;
+}
+
+div.cell-value {
+  margin: auto;
+}
+
+h1, h2, h3, h4 {
+	text-align: center;
+}
