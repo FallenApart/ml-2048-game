@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="script.js"></script>
     <title>2048</title>
   </head>
@@ -10,8 +11,9 @@
   <body>
 
     <div class="container">
-      <div class="header">
-        <h3>Title</h3>
+      <div class="header-container">
+        <h3 id="score"></h3>
+        <h4 id="status"></h4>
       </div>
       <div class = "game-container">
           <div class = "game">
@@ -23,28 +25,28 @@
            <!-- </div> -->
            <!-- <div class="grid-row"> -->
              <div class="grid-cell"><div class="cell-value"></div></div>
-             <div class="grid-cell"><div class="cell-value">2</div></div>
+             <div class="grid-cell"><div class="cell-value"></div></div>
+             <div class="grid-cell"><div class="cell-value"></div></div>
+             <div class="grid-cell"><div class="cell-value"></div></div>
+           <!-- </div> -->
+           <!-- <div class="grid-row"> -->
+             <div class="grid-cell"><div class="cell-value"></div></div>
+             <div class="grid-cell"><div class="cell-value"></div></div>
              <div class="grid-cell"><div class="cell-value"></div></div>
              <div class="grid-cell"><div class="cell-value"></div></div>
            <!-- </div> -->
            <!-- <div class="grid-row"> -->
              <div class="grid-cell"><div class="cell-value"></div></div>
              <div class="grid-cell"><div class="cell-value"></div></div>
-             <div class="grid-cell"><div class="cell-value">16</div></div>
              <div class="grid-cell"><div class="cell-value"></div></div>
-           <!-- </div> -->
-           <!-- <div class="grid-row"> -->
-             <div class="grid-cell"><div class="cell-value"></div></div>
-             <div class="grid-cell"><div class="cell-value"></div></div>
-             <div class="grid-cell"><div class="cell-value">1024</div></div>
              <div class="grid-cell"><div class="cell-value"></div></div>
            <!-- </div> -->
            </div>
        </div>
-       <div class="menu">
+       <div class="menu-container">
          <p>Some info</p>
        </div>
-       <div class="footer">
+       <div class="footer-container">
          <h4>Footer</h4>
        </div>
      </div>
