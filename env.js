@@ -22,6 +22,7 @@ function sthChanged(a, b) {
 class Env {
   constructor() {
 
+    this.mode = 'play_yourself';
     this.action_space = MOVES;
     this.empty_cells = [];
     this.reset();
@@ -223,29 +224,50 @@ function randomMove(env) {
 $(document).ready(function() {
 
   let env = new Env();
+  play_yourself();
 
-// Random play
-  while (env.done != true) {
-    randomMove(env)
-  }
-  $("#status").text("Game Over");
-
-/*
-  $('body').keydown(function(key) {
-    let keyNo = key.which;
-    if (keyNo == R) {
-      env.setup();
-    } else if (env.done != true && MOVES.includes(keyNo)) {
-      env.tryToMove(keyNo);
-    }
-    env.updateEmptyCells();
-    env.updateGrid();
-    env.isGameOver();
-    if (env.done) {
-      $("#status").text("Game Over");
-    }
+  $('#play_yourself').click(() => {
+    env.mode = 'play_yourself';
+    env.reset();
+    play_yourself()
   });
-*/
 
+  $('#random_play').click(() => {
+    env.mode = 'random_play';
+    env.reset();
+    random_play()
+  });
+
+  function play_yourself() {
+    env.reset();
+    $("#mode").text("Mode: you play the game");
+    $("#status").text("The game is on");
+    $('body').keydown(function(key) {
+      if (env.mode == 'play_yourself') {
+        let keyNo = key.which;
+        if (keyNo == R) {
+          env.reset();
+        } else if (env.done != true && MOVES.includes(keyNo)) {
+          env.tryToMove(keyNo);
+        }
+        env.updateEmptyCells();
+        env.updateGrid();
+        env.isGameOver();
+        if (env.done) {
+          $("#status").text("Game Over");
+        }
+      }
+    });
+  }
+
+  function random_play() {
+    env.reset();
+    $("#mode").text("Mode: random play");
+    $("#status").text("The game is on");
+    while (env.done != true) {
+      randomMove(env)
+    }
+    $("#status").text("Game Over");
+  }
 
 });

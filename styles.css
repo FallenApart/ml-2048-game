@@ -36,6 +36,8 @@ div.menu-container {
 div.footer-container {
   grid-column: 1/3;
   grid-row: 3/4;
+	padding: 5pt;
+	text-align: center;
 }
 
 
