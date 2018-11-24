@@ -17,6 +17,7 @@ function sthChanged(a, b) {
       }
     }
   }
+  return false
 }
 
 class Env {
@@ -232,6 +233,32 @@ function randomMove(env) {
   env.isGameOver();
 }
 
+function dlruMove(env) {
+  let past_grid = env.grid.slice();
+  env.tryToMove(DOWN);
+  env.updateEmptyCells();
+  env.updateGrid();
+  if (sthChanged(past_grid, env.grid) === false) {
+    past_grid = env.grid.slice();
+    env.tryToMove(LEFT);
+    env.updateEmptyCells();
+    env.updateGrid();
+    if (sthChanged(past_grid, env.grid) === false) {
+      past_grid = env.grid.slice();
+      env.tryToMove(RIGHT);
+      env.updateEmptyCells();
+      env.updateGrid();
+      if (sthChanged(past_grid, env.grid) === false) {
+        past_grid = env.grid.slice();
+        env.tryToMove(UP);
+        env.updateEmptyCells();
+        env.updateGrid();
+      }
+    }
+  }
+  env.isGameOver();
+}
+
 $(document).ready(function() {
 
   let intervalId = false;
@@ -248,7 +275,12 @@ $(document).ready(function() {
     random_play()
   });
 
-  $('body').keydown(function(key) { //tylko 1 callback w calym programie
+  $('#dlru').click(() => {
+    env.mode = 'dlru';
+    dlru()
+  });
+
+  $('body').keydown(function(key) {
       if (env.mode == 'play_yourself') {
         let keyNo = key.which;
         if (keyNo == R) {
@@ -289,10 +321,30 @@ $(document).ready(function() {
   			clearInterval(intervalId);
         intervalId = false;
   			$("#status").text("Game Over");
-  			return; //nie pozwala wykonac funkcji randomMove
+  			return;
   		}
   		randomMove(env);
-	  }, 300);
+	  }, 100);
   }
+
+  function dlru() {
+     env.reset();
+     if (intervalId) {
+       clearInterval(intervalId);
+       intervalId = false;
+     }
+     $("#mode").text("Mode: Down, left, right, up");
+     $("#status").text("The game is on");
+
+     intervalId = setInterval(function(){
+       if (env.done) {
+         clearInterval(intervalId);
+         intervalId = false;
+         $("#status").text("Game Over");
+         return;
+       }
+       dlruMove(env);
+     }, 100);
+   }
 
 });
