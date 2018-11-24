@@ -181,16 +181,27 @@ class Env {
 
   tryToMove(keyNo) {
     let past_grid = this.grid.slice();
-    if (keyNo == RIGHT) {
-      this.moveRight();
-    } else if (keyNo == LEFT) {
-      this.moveLeft();
-    } else if (keyNo == DOWN) {
-      this.moveDown();
-    } else if (keyNo == UP) {
-      this.moveUp();
-    }
-    if (sthChanged(past_grid, this.grid) == true) {
+	switch(keyNo) {
+		case RIGHT:
+			this.moveRight();
+			break;
+		case LEFT:
+			this.moveLeft();
+			break;
+		case DOWN:
+			this.moveDown();
+			break;
+		case UP:
+			this.moveUp();
+			break;
+		default:
+			console.warn("wrong direction");
+			break;
+	}
+
+	const hasStateChanged = sthChanged(past_grid, this.grid);
+
+    if (hasStateChanged === true) {
       this.updateEmptyCells();
       this.addNumber();
     }
@@ -223,26 +234,21 @@ function randomMove(env) {
 
 $(document).ready(function() {
 
+  let intervalId = false;
   let env = new Env();
   play_yourself();
 
   $('#play_yourself').click(() => {
     env.mode = 'play_yourself';
-    env.reset();
     play_yourself()
   });
 
   $('#random_play').click(() => {
     env.mode = 'random_play';
-    env.reset();
     random_play()
   });
 
-  function play_yourself() {
-    env.reset();
-    $("#mode").text("Mode: you play the game");
-    $("#status").text("The game is on");
-    $('body').keydown(function(key) {
+  $('body').keydown(function(key) { //tylko 1 callback w calym programie
       if (env.mode == 'play_yourself') {
         let keyNo = key.which;
         if (keyNo == R) {
@@ -258,16 +264,35 @@ $(document).ready(function() {
         }
       }
     });
+
+  function play_yourself() {
+    env.reset();
+    if (intervalId) {
+      clearInterval(intervalId);
+      intervalId = false;
+    }
+    $("#mode").text("Mode: you play the game");
+    $("#status").text("The game is on");
   }
 
   function random_play() {
     env.reset();
+    if (intervalId) {
+      clearInterval(intervalId);
+      intervalId = false;
+    }
     $("#mode").text("Mode: random play");
     $("#status").text("The game is on");
-    while (env.done != true) {
-      randomMove(env)
-    }
-    $("#status").text("Game Over");
+
+  	intervalId = setInterval(function(){
+  		if (env.done) {
+  			clearInterval(intervalId);
+        intervalId = false;
+  			$("#status").text("Game Over");
+  			return; //nie pozwala wykonac funkcji randomMove
+  		}
+  		randomMove(env);
+	  }, 300);
   }
 
 });
