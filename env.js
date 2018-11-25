@@ -1,31 +1,9 @@
-const LEFT = 37;
-const UP = 38;
-const RIGHT = 39;
-const DOWN = 40;
-const MOVES = [LEFT, UP, RIGHT, DOWN];
-const R = 82;
-
-function randomElement(myArray) {
-  return myArray[Math.floor(Math.random() * myArray.length)];
-}
-
-function sthChanged(a, b) {
-  for (let row = 0; row <4; row ++) {
-    for (let col = 0; col < 4; col ++) {
-      if (a[row][col] != b[row][col]) {
-        return true
-      }
-    }
-  }
-  return false
-}
-
 class Env {
   constructor() {
 
     this.mode = 'play_yourself';
-    this.action_space = MOVES;
     this.empty_cells = [];
+    this.playInBackground = false;
     this.reset();
     this.flatten();
   }
